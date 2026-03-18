@@ -111,8 +111,8 @@
                         <th class="px-6 py-3 text-left text-sm font-semibold">Hostel</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold">Owner</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold">Location</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold">Capacity</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold">Available</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold">Total Rooms</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold">Available For Booking</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold">Manager</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold">Contact</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold">Actions</th>

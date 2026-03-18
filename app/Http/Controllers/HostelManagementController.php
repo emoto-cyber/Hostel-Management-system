@@ -17,27 +17,27 @@ use Illuminate\Support\Facades\DB;
 class HostelManagementController extends Controller
 {
     //dashboard
-    public function dashboard(){
-        $hostels = Hostel::count();
+   
 
-        $bookedhostel = Room::where('status','occupied')
-        ->count();
-        $bookingpercentage = ($bookedhostel > 0) ? ($hostels * 100) / $bookedhostel : 0.0;
+public function dashboard()
+{
+    // Users per month
+    $data = DB::table('users')
+        ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+        ->groupBy('month')
+        ->orderBy('month')
+        ->get();
 
-        $data = [
-            'hostels' => $hostels,
-            'totalvacant'=> Room::where('status','Vacant')
-            ->count(),
+    $months = $data->pluck('month')->map(fn($m) => date("F", mktime(0,0,0,$m,1)));
+    $totals = $data->pluck('total');
 
+    // Rooms info (example)
+    $bookedRooms = DB::table('rooms')->where('status','booked')->count();
+    $vacantRooms = DB::table('rooms')->where('status','vacant')->count();
+    $totalPaid = DB::table('payments')->sum('amount');
 
-
-
-        ];
-
-
-        return view(view:'dashboard', data:compact('hostels','data'));
-    }
-
+    return view('dashboard', compact('months','totals','bookedRooms','vacantRooms','totalPaid'));
+}
 
     public function hostel_index(Request $request)
     {
