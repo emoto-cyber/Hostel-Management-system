@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 class HostelManagementController extends Controller
 {
     //dashboard
-   
+
 
 public function dashboard()
 {
@@ -153,9 +153,11 @@ $data = [
 
     if($request->filled('search')){
         $search = $request->input('search');
-        $query->where('room_number', 'like', "%$search%")
+        $query->where('room_type', 'like', "%$search%")
+              ->where('status','Available')
               ->orWhereHas('hostel', function($q) use ($search){
                   $q->where('name', 'like', "%$search%");
+
               });
     }
 

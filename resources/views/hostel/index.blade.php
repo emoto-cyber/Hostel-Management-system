@@ -20,7 +20,7 @@
             </nav>
         </div>
 
-        <div class="flex space-x-3">
+        {{-- <div class="flex space-x-3">
             <a href="{{ route('hostel.create') }}"
                class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
                 + Add Hostel
@@ -30,7 +30,7 @@
                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                 All Hostels
             </a>
-        </div>
+        </div> --}}
     </div>
 
 
@@ -86,6 +86,19 @@
                class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
                 Reset
             </a>
+
+              <div class="flex space-x-3">
+
+
+            <a href="{{ route('hostel.all') }}"
+               class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                All Hostels
+            </a>
+             <a href="{{ route('hostel.create') }}"
+               class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                + Add Hostel
+            </a>
+        </div>
 
         </form>
     </div>
@@ -162,7 +175,7 @@
 
                     <tr>
                         <td colspan="9" class="text-center py-6 text-gray-500">
-                            No hostels found
+                            No Hostels Available
                         </td>
                     </tr>
 

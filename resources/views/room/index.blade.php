@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" x-data="{ open: false, selectedRooms: [] }">
 
       {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Rooms Management</h2>
 
-        <div class="flex items-center space-x-3">
+        {{-- <div class="flex items-center space-x-3">
             <a href="{{ route('room.create') }}"
                class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
                 + Add Room
@@ -25,7 +25,7 @@
                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                 All
             </a>
-        </div>
+        </div> --}}
     </div>
 
 
@@ -112,8 +112,37 @@
                 Reset
             </a>
 
+            <div class="flex items-center space-x-3">
+            <a href="{{ route('room.occupied') }}"
+               class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                Occupied
+            </a>
+            <a href="{{ route('room.available') }}"
+               class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                Available
+            </a>
+
+               <a href="{{ route('room.index') }}"
+               class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                All
+            </a>
+               <a href="{{ route('room.create') }}"
+               class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                + Add Room
+            </a>
+        </div>
+
         </form>
     </div>
+
+             {{-- Book Selected Rooms Button --}}
+            <div class="mt-4">
+                <button type="button"
+                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                        @click="if(selectedRooms.length === 0){ alert('Please select at least one room'); } else { open = true; }">
+                    Book Selected Rooms
+                </button>
+            </div>
 
 
     {{-- Table --}}
@@ -121,11 +150,12 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
+                    <th class="px-6 py-3 text-left text-sm"></th>
                     <th class="px-6 py-3 text-left text-sm">#</th>
                     <th class="px-6 py-3 text-left text-sm">Hostel</th>
                     <th class="px-6 py-3 text-left text-sm">Room Number</th>
                     <th class="px-6 py-3 text-left text-sm">Capacity</th>
-                    <th class="px-6 py-3 text-left text-sm">Price</th>
+                    <th class="px-6 py-3 text-left text-sm">Rent</th>
                     <th class="px-6 py-3 text-left text-sm">Room Type</th>
                     <th class="px-6 py-3 text-left text-sm">Status</th>
                     <th class="px-6 py-3 text-left text-sm">Actions</th>
@@ -135,11 +165,16 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($rooms as $room)
                     <tr>
+                             <td class="px-6 py-4">
+                            <input type="checkbox" class="room-checkbox" value="{{ $room->id }}"
+                                   x-model="selectedRooms"
+                                   :disabled="['occupied','booked'].includes('{{ strtolower($room->status) }}')">
+                        </td>
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">{{ $room->hostel->name ?? "N/A" }}</td>
                         <td class="px-6 py-4">{{ $room->room_number }}</td>
                         <td class="px-6 py-4">{{ $room->capacity }}</td>
-                        <td class="px-6 py-4">{{ $room->price }}</td>
+                        <td class="px-6 py-4">KES,{{ $room->price }}</td>
                         {{-- <td class="px-6 py-4">{{ $room->room_type }}</td> --}}
 
                               <td class="px-6 py-4">
@@ -175,17 +210,44 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:underline">Delete</button>
+
+
+                                 {{-- Booking Modal --}}
+            <div x-show="open" x-transition.opacity class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                <div class="bg-white rounded-lg p-6 w-96 relative">
+                    <h3 class="text-lg font-semibold mb-4">Confirm Booking</h3>
+
+                    <p class="mb-4">You are about to book <span x-text="selectedRooms.length"></span> room(s).</p>
+
+                    {{-- Hidden Inputs for Selected Rooms --}}
+                    <template x-for="room in selectedRooms" :key="room">
+                        <input type="hidden" name="rooms[]" :value="room">
+                    </template>
+
+                    <div class="flex justify-end space-x-2 mt-4">
+                        <button type="button" @click="open = false" class="px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-gray-500">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                            Confirm Booking
+                        </button>
+                    </div>
+
+                    {{-- Close Button --}}
+                    <button @click="open=false" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+                </div>
                             </form>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="px-6 py-4 text-center text-gray-500">No rooms found.</td>
+                        <td colspan="8" class="px-6 py-4 text-center text-gray-500">No room(s) Available, Please Try Again!!</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
+
 </div>
 @endsection
 

@@ -23,14 +23,23 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 // Route::middleware(['auth', 'role:admin'])->group(function () {
-        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'user_create'])->name('users.create');
     Route::post('/users', [UserController::class, 'user_store'])->name('users.store');
     Route::get('/users/{id}/edit', [UserController::class, 'user_edit'])->name('users.edit');
     Route::put('/users/{id}/update', [UserController::class, 'user_update'])->name('users.update');
     Route::delete('/users/destroy', [UserController::class, 'user_destroy'])->name('users.destroy');
+
+    //roles routes
     Route::get('/roles/create', [RoleController::class, 'role_create'])->name('roles.create');
     Route::post('/roles', [RoleController::class, 'role_store'])->name('roles.store');
+    Route::get('/roles', [RoleController::class, 'role_index'])->name('roles.index');
+    Route::get('/roles/{id}/edit', [RoleController::class, 'role_edit'])->name('roles.edit');
+    Route::put('/roles/{id}/update', [RoleController::class, 'role_update'])->name('roles.update');
+    Route::delete('/roles/{id}/destroy', [RoleController::class, 'role_destroy'])->name('roles.destroy');
+
+    //permission routes
+
     Route::get('/permissions/create', [PermissionController::class, 'permission_create'])->name('permissions.create');
     Route::post('/permissions', [PermissionController::class, 'permission_store'])->name('permissions.store');
 
@@ -57,6 +66,7 @@ Route::get('/hostel', [App\Http\Controllers\HostelManagementController::class, '
     Route::patch('/room/{id}/toggle', [App\Http\Controllers\HostelManagementController::class,'room_toggle'])->name('room.toggle');
     Route::get('/room/availble', [App\Http\Controllers\HostelManagementController::class,'room_available'])->name('room.available');
     Route::get('/room/occupied', [App\Http\Controllers\HostelManagementController::class,'room_occupied'])->name('room.occupied');
+    Route::post('/room/book', [HostelManagementController::class, 'book'])->name('room.book');
 
 
     //payment routes

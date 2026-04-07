@@ -6,7 +6,7 @@
     {{-- Page Header --}}
     <div class="mb-6">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Edit Room
+            Confirm Booking
         </h2>
     </div>
 

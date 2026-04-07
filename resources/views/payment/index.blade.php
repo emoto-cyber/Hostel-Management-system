@@ -6,13 +6,13 @@
     {{-- Page Header --}}
     <div class="flex justify-between items-center mb-6">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Payments List
+            Payments Records
         </h2>
 
-        <a href="{{ route('hostel.create')  }}"
+        {{-- <a href="{{ route('hostel.create')  }}"
            class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
             Payments
-        </a>
+        </a> --}}
     </div>
      {{-- Search Section --}}
     <div class="bg-white p-4 rounded-lg shadow mb-6">
@@ -40,6 +40,10 @@
                class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
                 Reset
             </a>
+              <a href="{{ route('hostel.create')  }}"
+           class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+            Payments
+        </a>
 
         </form>
     </div>
@@ -109,7 +113,7 @@
                 @empty
                     <tr>
                         <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                            No payments found.
+                            No payments Available.
                         </td>
                     </tr>
                 @endforelse
